@@ -25,5 +25,24 @@ namespace TequilasRestaurant.Controllers
                 Includes="ProductIngredients.Product"
             }));
         }
+
+        //Ingredient/Create
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("IngredientId, Name")] Ingredient ingredient)
+        {
+            if (ModelState.IsValid)
+            {
+                await ingredients.AddAsync(ingredient);
+                return RedirectToAction("Index");
+            }
+            return View(ingredient);
+        }
     }
 }
